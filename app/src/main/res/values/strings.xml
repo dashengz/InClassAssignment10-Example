@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">InClassAssignment10-DashengZ</string>
+
+    <string name="object_name">BlogPost Object</string>
+    <string name="list_name">Read BlogPosts</string>
+    <string name="camera_name">Camera</string>
+    <string name="storage_name">Load Images</string>
+</resources>
