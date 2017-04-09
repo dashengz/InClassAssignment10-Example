@@ -15,8 +15,6 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 
-import static com.dashengz.inclassassignment10_dashengz.R.id.imageView;
-
 public class StorageActivity extends AppCompatActivity {
 
     private StorageReference mStorageRef;
