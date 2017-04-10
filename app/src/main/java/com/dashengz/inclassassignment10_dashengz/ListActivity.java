@@ -2,6 +2,8 @@ package com.dashengz.inclassassignment10_dashengz;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,12 +19,14 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
-    TextView display;
-
     FirebaseDatabase database;
     DatabaseReference postsRef;
 
     ArrayList<BlogPost> posts;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +38,26 @@ public class ListActivity extends AppCompatActivity {
 
         posts = new ArrayList<>();
 
-        display = (TextView) findViewById(R.id.display);
+        mRecyclerView = (RecyclerView) findViewById(R.id.list_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(ListActivity.this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new BlogPostAdapter(posts);
+        mRecyclerView.setAdapter(mAdapter);
 
         postsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 BlogPost post = dataSnapshot.getValue(BlogPost.class);
-
                 posts.add(post);
-
-                String results = "";
-                for (BlogPost p : posts) {
-                    results += p + "\n";
-                }
-                display.setText(results);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -71,8 +80,6 @@ public class ListActivity extends AppCompatActivity {
 
             }
         });
-
-        display.setVisibility(View.VISIBLE);
     }
 
 }
